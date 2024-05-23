@@ -1,0 +1,60 @@
+<!--for auto load json file at startup run python -m http.server at CMD and then http://localhost:8000/index.html-->
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ראיונות עבודה</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ראיונות עבודה</h1>
+        <button id="add-company-btn">הוספת חברה</button>
+        <div id="companies-list"></div>
+        <button id="save-changes-btn" class="save-changes-btn">שמירת שינויים</button>
+    </div>
+
+    <!-- Modal for adding/editing company -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="company-form">
+                <label for="company-name">שם חברה</label>
+                <input type="text" id="company-name" required>
+                <label for="role">תפקיד</label>
+                <input type="text" id="role" required>
+                <label for="interview-date">תאריך ראיון</label>
+                <input type="date" id="interview-date" required>
+                <label for="interviewer">מי דיבר איתי</label>
+                <input type="text" id="interviewer" required>
+                <label for="notes">הערות</label>
+                <textarea id="notes"></textarea>
+                <button type="submit">שמור</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding next step -->
+    <div id="next-step-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-next-step-btn">&times;</span>
+            <form id="next-step-form">
+                <label for="next-step-title">שלב הבא</label>
+                <input type="text" id="next-step-title" required>
+                <label for="next-step-date">תאריך</label>
+                <input type="date" id="next-step-date" required>
+                <label for="next-step-location">מיקום</label>
+                <input type="text" id="next-step-location" required>
+                <button type="submit">שמור</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

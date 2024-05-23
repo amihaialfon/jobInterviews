@@ -1,0 +1,19 @@
+[
+    {
+      "name": "Company A",
+      "role": "Developer",
+      "interviewDate": "2024-05-01",
+      "interviewer": "John Doe",
+      "notes": "Good interview",
+      "passed": false,
+      "disabled": false,
+      "interviews": [
+        {
+          "title": "Technical Round",
+          "date": "2024-05-05",
+          "location": "Office"
+        }
+      ]
+    }
+  ]
+  
