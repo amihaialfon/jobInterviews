@@ -102,3 +102,18 @@ form input, form textarea, form button {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
+button#save-changes-btn {
+    background-color: #dc3545;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button#load-json-btn {
+    background-color: #28a745;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add spacing between buttons if necessary */
+}

@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const addCompanyBtn = document.getElementById('add-company-btn');
     const companyForm = document.getElementById('company-form');
     const saveChangesBtn = document.getElementById('save-changes-btn');
+    const loadJsonBtn = document.getElementById('load-json-btn');
     const nextStepForm = document.getElementById('next-step-form');
     const nextStepModal = document.getElementById('next-step-modal');
     const closeNextStepModalBtn = document.querySelector('.close-next-step-btn');
-    let companies = [];
     let currentCompanyIndex = null;
 
     // Fetch companies data from companies.json
@@ -71,6 +71,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     saveChangesBtn.addEventListener('click', saveCompanies);
+
+    // Add event listener for the load JSON button
+    loadJsonBtn.addEventListener('click', () => {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json';
+        fileInput.onchange = event => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    try {
+                        const json = JSON.parse(e.target.result);
+                        companies = json;
+                        updateCompaniesList();
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        };
+        fileInput.click();
+    });
 
     function updateCompaniesList() {
         companiesList.innerHTML = '';
