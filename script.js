@@ -85,15 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         if (currentCompanyIndex !== null) {
-            companies[currentCompanyIndex] = company; // Update existing company
+            companies[currentCompanyIndex] = company;
         } else {
-            companies.push(company); // Add new company
+            companies.push(company);
         }
     
         updateCompaniesList();
         modal.style.display = 'none';
         companyForm.reset();
-        currentCompanyIndex = null; // Reset after saving
+        currentCompanyIndex = null; 
     });
     
 
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const companyDiv = document.createElement('div');
             companyDiv.classList.add('company');
             if (company.disabled) {
-                companyDiv.classList.add('blocked'); // Apply cross-over text style
+                companyDiv.classList.add('blocked');
             }
             companyDiv.innerHTML = `
                 <h3>${company.name}</h3>
