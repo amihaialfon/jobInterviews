@@ -8,17 +8,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="work-in-progress.png">
 </head>
 <body>
     <div class="container">
         <h1>ראיונות עבודה</h1>
+        <p class="relevant-count">מספר החברות הפעילות כרגע בתהליך החיפוש עבודה הוא: <span id="relevant-count"></span></p>
         <button id="add-company-btn">הוספת חברה</button>
-        <div id="companies-list"></div>
+        <button id="accepted-btn">התקבלתי</button>
+        
+        <div id="relevant-companies-list">
+            <h2>חברות עם הזדמנויות</h2>
+        </div>
+
+        <button id="toggle-non-relevant-btn">הצג/הסתר חברות לא רלוונטיות</button>
+        <div id="non-relevant-companies-list" style="display: none;">
+            <h2>חברות לא רלוונטיות</h2>
+        </div>
+
+        <div id="confetti-container" class="confetti-container"></div>
+        
         <button id="save-changes-btn" class="save-changes-btn">שמירת שינויים</button>
         <button id="load-json-btn" class="save-changes-btn">טעינת קובץ</button>
     </div>
 
-    <!-- Modal for adding/editing company -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -38,7 +51,6 @@
         </div>
     </div>
 
-    <!-- Modal for adding next step -->
     <div id="next-step-modal" class="modal">
         <div class="modal-content">
             <span class="close-next-step-btn">&times;</span>
@@ -53,7 +65,9 @@
             </form>
         </div>
     </div>
-
+    <div id="copyrights">
+        <label>create by <a href="https://www.linkedin.com/in/amihaialfon/">amihai alfon</a></label>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const companiesList = document.getElementById('companies-list');
+    const relevantCompaniesList = document.getElementById('relevant-companies-list');
+    const nonRelevantCompaniesList = document.getElementById('non-relevant-companies-list');
+    const toggleNonRelevantBtn = document.getElementById('toggle-non-relevant-btn');
     const modal = document.getElementById('modal');
     const closeModalBtn = document.querySelector('.close-btn');
     const addCompanyBtn = document.getElementById('add-company-btn');
@@ -9,13 +11,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextStepForm = document.getElementById('next-step-form');
     const nextStepModal = document.getElementById('next-step-modal');
     const closeNextStepModalBtn = document.querySelector('.close-next-step-btn');
+    const acceptedBtn = document.getElementById('accepted-btn');
+    const confettiContainer = document.getElementById('confetti-container');
+    const relevantCount = document.getElementById('relevant-count');
     let currentCompanyIndex = null;
+    let companies = [];
 
-    // Fetch companies data from companies.json
+    if (!relevantCompaniesList || !nonRelevantCompaniesList) {
+        console.error('Required DOM elements are missing');
+        return;
+    }   
+
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confettiContainer.appendChild(confetti);
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
+
+    function showConfetti() {
+        for (let i = 0; i < 100; i++) {
+            createConfetti();
+        }
+    }
+
+    acceptedBtn.addEventListener('click', showConfetti);
+
     fetch('companies.json')
         .then(response => response.json())
         .then(data => {
             companies = data;
+            console.log('Companies data loaded:', companies);
             updateCompaniesList();
         })
         .catch(error => console.error('Error loading companies data:', error));
@@ -52,11 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
             disabled: false,
             interviews: []
         };
-        companies.push(company);
+        
+        if (currentCompanyIndex !== null) {
+            companies[currentCompanyIndex] = company; // Update existing company
+        } else {
+            companies.push(company); // Add new company
+        }
+    
         updateCompaniesList();
         modal.style.display = 'none';
         companyForm.reset();
+        currentCompanyIndex = null; // Reset after saving
     });
+    
 
     nextStepForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -72,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     saveChangesBtn.addEventListener('click', saveCompanies);
 
-    // Add event listener for the load JSON button
     loadJsonBtn.addEventListener('click', () => {
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
@@ -85,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     try {
                         const json = JSON.parse(e.target.result);
                         companies = json;
+                        console.log('Loaded companies from JSON file:', companies);
                         updateCompaniesList();
                     } catch (error) {
                         console.error('Error parsing JSON:', error);
@@ -96,13 +135,25 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.click();
     });
 
+    toggleNonRelevantBtn.addEventListener('click', () => {
+        if (nonRelevantCompaniesList.style.display === 'none') {
+            nonRelevantCompaniesList.style.display = 'block';
+        } else {
+            nonRelevantCompaniesList.style.display = 'none';
+        }
+    });
+
     function updateCompaniesList() {
-        companiesList.innerHTML = '';
+        console.log('Updating companies list...');
+        if (!relevantCompaniesList || !nonRelevantCompaniesList) return;
+    
+        relevantCompaniesList.innerHTML = '';
+        nonRelevantCompaniesList.innerHTML = '';
         companies.forEach((company, index) => {
             const companyDiv = document.createElement('div');
             companyDiv.classList.add('company');
             if (company.disabled) {
-                companyDiv.classList.add('disabled');
+                companyDiv.classList.add('blocked'); // Apply cross-over text style
             }
             companyDiv.innerHTML = `
                 <h3>${company.name}</h3>
@@ -122,62 +173,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="edit-btn" data-index="${index}">ערוך</button>
                 <button class="delete-btn" data-index="${index}">מחק</button>
             `;
-            companiesList.appendChild(companyDiv);
+            
+    
+            if (company.disabled) {
+                nonRelevantCompaniesList.appendChild(companyDiv);
+            } else {
+                relevantCompaniesList.appendChild(companyDiv);
+            }
+
+            const relevantCompanies = companies.filter(company => !company.disabled);
+            relevantCount.textContent = relevantCompanies.length;
         });
+    
+        console.log('Companies displayed:', { relevant: relevantCompaniesList.children.length, nonRelevant: nonRelevantCompaniesList.children.length });
+    
         document.querySelectorAll('.pass-btn').forEach(button => {
-            button.addEventListener('click', handlePass);
+            button.addEventListener('click', event => {
+                const index = event.target.dataset.index;
+                companies[index].disabled = false;
+                updateCompaniesList();
+            });
         });
+    
         document.querySelectorAll('.fail-btn').forEach(button => {
-            button.addEventListener('click', handleFail);
+            button.addEventListener('click', event => {
+                const index = event.target.dataset.index;
+                companies[index].disabled = true;
+                updateCompaniesList();
+            });
         });
+    
         document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', handleEdit);
+            button.addEventListener('click', event => {
+                const index = event.target.dataset.index;
+                currentCompanyIndex = index;
+                const company = companies[index];
+                document.getElementById('company-name').value = company.name;
+                document.getElementById('role').value = company.role;
+                document.getElementById('interview-date').value = company.interviewDate;
+                document.getElementById('interviewer').value = company.interviewer;
+                document.getElementById('notes').value = company.notes;
+                modal.style.display = 'block';
+            });
         });
+    
         document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', handleDelete);
+            button.addEventListener('click', event => {
+                const index = event.target.dataset.index;
+                companies.splice(index, 1);
+                updateCompaniesList();
+            });
         });
     }
-
-    function handlePass(event) {
-        const index = event.target.dataset.index;
-        currentCompanyIndex = index;
-        nextStepModal.style.display = 'block';
-    }
-
-    function handleFail(event) {
-        const index = event.target.dataset.index;
-        companies[index].disabled = true;
-        updateCompaniesList();
-    }
-
-    function handleEdit(event) {
-        const index = event.target.dataset.index;
-        const company = companies[index];
-        document.getElementById('company-name').value = company.name;
-        document.getElementById('role').value = company.role;
-        document.getElementById('interview-date').value = company.interviewDate;
-        document.getElementById('interviewer').value = company.interviewer;
-        document.getElementById('notes').value = company.notes;
-        companies.splice(index, 1);
-        modal.style.display = 'block';
-    }
-
-    function handleDelete(event) {
-        const index = event.target.dataset.index;
-        companies.splice(index, 1);
-        updateCompaniesList();
-    }
-
+    
     function saveCompanies() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(companies));
-        const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "companies.json");
-        document.body.appendChild(downloadAnchorNode);
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        const blob = new Blob([JSON.stringify(companies, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'companies.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
-
-    // Initialize companies list on page load
-    updateCompaniesList();
 });
