@@ -1,6 +1,5 @@
-====================================
-         Project: Job Interviews Tracker
-====================================
+Job Interviews Tracker
+======================
 
 Description:
 ------------
