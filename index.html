@@ -29,10 +29,23 @@
             </a>
         </div>
 
-        <h1>ראיונות עבודה</h1>
+        <h1>מערכת לניהול ראיונות עבודה</h1>
         <p class="relevant-count">מספר החברות הפעילות כרגע בתהליך החיפוש עבודה הוא: <span id="relevant-count"></span></p>
+        <div id="buttonBar">
         <button id="add-company-btn">הוספת חברה</button>
         <button id="accepted-btn">התקבלתי</button>
+
+        <div class="bar-graph-container">
+            <div id="bar-graph">
+                <div id="relevant-bar" class="bar-segment">
+                    <span id="relevant-percentage" class="bar-percentage"></span>
+                </div>
+                <div id="non-relevant-bar" class="bar-segment">
+                    <span id="non-relevant-percentage" class="bar-percentage"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <div id="relevant-companies-list">
             <h2>חברות עם הזדמנויות</h2>
@@ -71,8 +84,8 @@
     <div id="next-step-modal" class="modal">
         <div class="modal-content">
             <span class="close-next-step-btn">&times;</span>
-            <form id="next-step-form">
-                <label for="next-step-title">שלב הבא</label>
+            <form id="next-step-form" >
+                <label id="next-step-title-label">שלב הבא</label>
                 <input type="text" id="next-step-title" required>
                 <label for="next-step-date">תאריך</label>
                 <input type="date" id="next-step-date" required>
@@ -83,7 +96,7 @@
         </div>
     </div>
     <div id="copyrights">
-        <label>© create by <a href="https://www.linkedin.com/in/amihaialfon/">amihai alfon</a></label>
+        <label>Created by <a href="https://www.linkedin.com/in/amihaialfon/">amihai alfon</a> ©</label>
     </div>
     <script src="script.js"></script>
 </body>

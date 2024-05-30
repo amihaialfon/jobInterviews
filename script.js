@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!relevantCompaniesList || !nonRelevantCompaniesList) {
         console.error('Required DOM elements are missing');
         return;
-    }   
+    }
 
     function createConfetti() {
         const confetti = document.createElement('div');
@@ -143,6 +143,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event delegation for company buttons
+    relevantCompaniesList.addEventListener('click', event => {
+        if (event.target.classList.contains('pass-btn')) {
+            const index = event.target.dataset.index;
+            companies[index].disabled = false;
+            currentCompanyIndex = index; // Set the current company index
+            nextStepModal.style.display = 'block'; // Show the next step modal
+            updateCompaniesList();
+        } else if (event.target.classList.contains('fail-btn')) {
+            const index = event.target.dataset.index;
+            companies[index].disabled = true;
+            updateCompaniesList();
+        } else if (event.target.classList.contains('edit-btn')) {
+            const index = event.target.dataset.index;
+            currentCompanyIndex = index;
+            const company = companies[index];
+            document.getElementById('company-name').value = company.name;
+            document.getElementById('role').value = company.role;
+            document.getElementById('interview-date').value = company.interviewDate;
+            document.getElementById('interviewer').value = company.interviewer;
+            document.getElementById('notes').value = company.notes;
+            modal.style.display = 'block';
+        } else if (event.target.classList.contains('delete-btn')) {
+            const index = event.target.dataset.index;
+            companies.splice(index, 1);
+            updateCompaniesList();
+        }
+    });
+
     function updateCompaniesList() {
         console.log('Updating companies list...');
         if (!relevantCompaniesList || !nonRelevantCompaniesList) return;
@@ -162,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>מי דיבר איתי: ${company.interviewer}</p>
                 <p>הערות: ${company.notes}</p>
                 ${company.interviews.map((interview, i) => `
-                    <div class="interview">
+                    <div id="next-step-title-label" class="interview">
                         <h4>שלב ${i + 1}: ${interview.title}</h4>
                         <p>תאריך: ${interview.date}</p>
                         <p>מיקום: ${interview.location}</p>
@@ -173,17 +202,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="edit-btn" data-index="${index}">ערוך</button>
                 <button class="delete-btn" data-index="${index}">מחק</button>
             `;
-            
     
             if (company.disabled) {
                 nonRelevantCompaniesList.appendChild(companyDiv);
             } else {
                 relevantCompaniesList.appendChild(companyDiv);
             }
-
+    
             const relevantCompanies = companies.filter(company => !company.disabled);
             relevantCount.textContent = relevantCompanies.length;
         });
+    
+        updateBarGraph(); // Update the bar graph
     
         console.log('Companies displayed:', { relevant: relevantCompaniesList.children.length, nonRelevant: nonRelevantCompaniesList.children.length });
     
@@ -237,4 +267,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
+
+    function updateBarGraph() {
+        const relevantCompanies = companies.filter(company => !company.disabled);
+        const nonRelevantCompanies = companies.filter(company => company.disabled);
+    
+        const relevantCount = relevantCompanies.length;
+        const nonRelevantCount = nonRelevantCompanies.length;
+        const totalCount = relevantCount + nonRelevantCount;
+    
+        const relevantPercentage = totalCount === 0 ? 0 : (relevantCount / totalCount) * 100;
+        const nonRelevantPercentage = totalCount === 0 ? 0 : (nonRelevantCount / totalCount) * 100;
+    
+        document.getElementById('relevant-bar').style.width = `${relevantPercentage}%`;
+        document.getElementById('non-relevant-bar').style.width = `${nonRelevantPercentage}%`;
+    
+        document.getElementById('relevant-percentage').textContent = `${relevantPercentage.toFixed(1)}%`;
+        document.getElementById('non-relevant-percentage').textContent = `${nonRelevantPercentage.toFixed(1)}%`;
+    }
+
+    updateBarGraph();
 });

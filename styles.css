@@ -121,14 +121,14 @@ form input, form textarea, form button {
 }
 
 button#save-changes-btn {
-    background-color: #dc3545;
+    background-color: #DF5A49;
     display: block;
     width: 100%;
     margin-top: 20px;
 }
 
 button#load-json-btn {
-    background-color: #28a745;
+    background-color: #EFC94C;
     display: block;
     width: 100%;
     margin-top: 20px;
@@ -212,4 +212,54 @@ button#load-json-btn {
 
 .social-icon:hover::after {
     opacity: 1;
+}
+
+.bar-graph-container {
+    display: flex;
+    margin-top: -8px;
+    width: 72%;
+    flex-wrap: revert;
+    align-content: flex-start;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#bar-graph {
+    display: flex;
+    width: 85%;
+    max-width: 800px;
+    height: 34px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+}
+
+.bar-segment {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#relevant-bar {
+    background-color: #45B29D;
+}
+
+#non-relevant-bar {
+    background-color: #334D5C;
+}
+
+.bar-percentage {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+div#buttonBar {
+    display: flex;
 }
