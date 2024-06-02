@@ -166,52 +166,26 @@ button#load-json-btn {
 }
 
 .social-icons {
-    position: absolute;
-    top: 10px;
-    left: 10px;
     display: flex;
     gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .social-icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.2s;
-}
-
-.social-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    font-size: 24px;
+    color: #000; /* Adjust color as needed */
+    text-decoration: none;
 }
 
 .social-icon:hover {
-    transform: scale(1.1);
+    color: #0077b5; /* Adjust hover color as needed */
 }
 
-.social-icon::after {
-    content: attr(title);
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    opacity: 0;
-    white-space: nowrap;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    font-size: 10px;
-}
-
-.social-icon:hover::after {
-    opacity: 1;
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 
 .bar-graph-container {
@@ -262,4 +236,46 @@ button#load-json-btn {
 
 div#buttonBar {
     display: flex;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#login-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#login-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#login-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#login-form button:hover {
+    background-color: #0056b3;
 }

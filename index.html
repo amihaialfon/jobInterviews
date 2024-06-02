@@ -7,97 +7,103 @@
     <title>ראיונות עבודה</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="work-in-progress.png">
 </head>
 <body>
-       
-    <div class="container">
-        <div class="social-icons">
-            <a href="https://www.linkedin.com" class="social-icon" title="LinkedIn">
-                <img src="images/LinkedIn.png" alt="LinkedIn">
-            </a>
-            <a href="https://www.glassdoor.com" class="social-icon" title="Glassdoor">
-                <img src="images/glassdoor.png" alt="Glassdoor">
-            </a>
-            <a href="https://il.indeed.com/" class="social-icon" title="Indeed">
-                <img src="images/indeed.png" alt="Indeed">
-            </a>
-            <a href="https://theworker.co.il/" class="social-icon" title="TheWorker">
-                <img src="images/theworker.png" alt="TheWorker">
-            </a>
-        </div>
+    <div id="main-content"> 
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com" class="social-icon" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://www.glassdoor.com" class="social-icon" title="Glassdoor">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <title>Glassdoor</title>
+                        <path d="M17.144 20.572H3.43C3.43 22.465 4.963 24 6.856 24h10.286c1.893 0 3.428-1.535 3.428-3.428V6.492c0-.07-.054-.125-.124-.125h-3.18c-.067 0-.123.056-.123.126v14.08zm0-20.572c1.892 0 3.427 1.535 3.427 3.43H6.858v14.078c0 .068-.056.125-.125.125H3.554c-.07 0-.125-.057-.125-.125V3.428C3.43 1.536 4.963 0 6.856 0h10.287"/>
+                    </svg>
+                </a>
+                <a href="https://il.indeed.com/" class="social-icon" title="Indeed">
+                    <i class="fas fa-briefcase"></i>
+                </a>
+                <a href="https://theworker.co.il/" class="social-icon" title="TheWorker">
+                    <i class="fa-regular fa-address-card"></i> 
+                </a>
+            </div>
+            
+            <h1>מערכת לניהול ראיונות עבודה</h1>
+            <p class="relevant-count">מספר החברות הפעילות כרגע בתהליך החיפוש עבודה הוא: <span id="relevant-count"></span></p>
+            <div id="buttonBar">
+                <button id="add-company-btn">הוספת חברה</button>
+                <button id="accepted-btn">התקבלתי</button>
 
-        <h1>מערכת לניהול ראיונות עבודה</h1>
-        <p class="relevant-count">מספר החברות הפעילות כרגע בתהליך החיפוש עבודה הוא: <span id="relevant-count"></span></p>
-        <div id="buttonBar">
-        <button id="add-company-btn">הוספת חברה</button>
-        <button id="accepted-btn">התקבלתי</button>
-
-        <div class="bar-graph-container">
-            <div id="bar-graph">
-                <div id="relevant-bar" class="bar-segment">
-                    <span id="relevant-percentage" class="bar-percentage"></span>
-                </div>
-                <div id="non-relevant-bar" class="bar-segment">
-                    <span id="non-relevant-percentage" class="bar-percentage"></span>
+                <div class="bar-graph-container">
+                    <div id="bar-graph">
+                        <div id="relevant-bar" class="bar-segment">
+                            <span id="relevant-percentage" class="bar-percentage"></span>
+                        </div>
+                        <div id="non-relevant-bar" class="bar-segment">
+                            <span id="non-relevant-percentage" class="bar-percentage"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div id="relevant-companies-list">
+                <h2>חברות עם הזדמנויות</h2>
+            </div>
+
+            <button id="toggle-non-relevant-btn">הצג/הסתר חברות לא רלוונטיות</button>
+            <div id="non-relevant-companies-list" style="display: none;">
+                <h2>חברות לא רלוונטיות</h2>
+            </div>
+
+            <div id="confetti-container" class="confetti-container"></div>
+            
+            <button id="save-changes-btn" class="save-changes-btn">שמירת שינויים</button>
+            <button id="load-json-btn" class="save-changes-btn">טעינת קובץ</button>
+        </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <form id="company-form">
+                    <label for="company-name">שם חברה</label>
+                    <input type="text" id="company-name" required>
+                    <label for="role">תפקיד</label>
+                    <input type="text" id="role" required>
+                    <label for="interview-date">תאריך ראיון</label>
+                    <input type="date" id="interview-date" required>
+                    <label for="interviewer">מי דיבר איתי</label>
+                    <input type="text" id="interviewer" required>
+                    <label for="notes">הערות</label>
+                    <textarea id="notes"></textarea>
+                    <button type="submit">שמור</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="next-step-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-next-step-btn">&times;</span>
+                <form id="next-step-form" >
+                    <label id="next-step-title-label">שלב הבא</label>
+                    <input type="text" id="next-step-title" required>
+                    <label for="next-step-date">תאריך</label>
+                    <input type="date" id="next-step-date" required>
+                    <label for="next-step-location">מיקום</label>
+                    <input type="text" id="next-step-location" required>
+                    <button type="submit">שמור</button>
+                </form>
+            </div>
+        </div>
+        <div id="copyrights">
+            <label>Created by <a href="https://www.linkedin.com/in/amihaialfon/">amihai alfon</a> ©</label>
         </div>
     </div>
 
-        <div id="relevant-companies-list">
-            <h2>חברות עם הזדמנויות</h2>
-        </div>
-
-        <button id="toggle-non-relevant-btn">הצג/הסתר חברות לא רלוונטיות</button>
-        <div id="non-relevant-companies-list" style="display: none;">
-            <h2>חברות לא רלוונטיות</h2>
-        </div>
-
-        <div id="confetti-container" class="confetti-container"></div>
-        
-        <button id="save-changes-btn" class="save-changes-btn">שמירת שינויים</button>
-        <button id="load-json-btn" class="save-changes-btn">טעינת קובץ</button>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <form id="company-form">
-                <label for="company-name">שם חברה</label>
-                <input type="text" id="company-name" required>
-                <label for="role">תפקיד</label>
-                <input type="text" id="role" required>
-                <label for="interview-date">תאריך ראיון</label>
-                <input type="date" id="interview-date" required>
-                <label for="interviewer">מי דיבר איתי</label>
-                <input type="text" id="interviewer" required>
-                <label for="notes">הערות</label>
-                <textarea id="notes"></textarea>
-                <button type="submit">שמור</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="next-step-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-next-step-btn">&times;</span>
-            <form id="next-step-form" >
-                <label id="next-step-title-label">שלב הבא</label>
-                <input type="text" id="next-step-title" required>
-                <label for="next-step-date">תאריך</label>
-                <input type="date" id="next-step-date" required>
-                <label for="next-step-location">מיקום</label>
-                <input type="text" id="next-step-location" required>
-                <button type="submit">שמור</button>
-            </form>
-        </div>
-    </div>
-    <div id="copyrights">
-        <label>Created by <a href="https://www.linkedin.com/in/amihaialfon/">amihai alfon</a> ©</label>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>

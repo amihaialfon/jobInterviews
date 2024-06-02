@@ -96,6 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCompanyIndex = null; 
     });
     
+    const user = 'amihai85@gmail.com';
+    const pass = '1q2w3e$R';
+
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the default way
+    
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+    
+        // Check if the credentials match
+        if (email === user && password === pass) {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            alert('Incorrect email or password. Please try again.');
+        }
+    });
+    
+    
 
     nextStepForm.addEventListener('submit', (event) => {
         event.preventDefault();
