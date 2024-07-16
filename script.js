@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCompanyIndex = null; 
     });
     
-    const user = 'amihai85@gmail.com';
-    const pass = '1q2w3e$R';
+    const user = 'mail';
+    const pass = 'password';
 
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting the default way
